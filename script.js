@@ -1,11 +1,35 @@
 // Store bookings in localStorage
 let bookings = JSON.parse(localStorage.getItem('bookings')) || [];
+let currentMenuItems = menuData;
 
 // Initialize the app
 document.addEventListener('DOMContentLoaded', () => {
+    initializeTabs();
     displayBookings();
+    displayMenu(currentMenuItems);
     setMinDate();
+    setupMenuFilters();
 });
+
+// Tab Navigation
+function initializeTabs() {
+    const tabBtns = document.querySelectorAll('.tab-btn');
+    const tabContents = document.querySelectorAll('.tab-content');
+
+    tabBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const tabName = btn.getAttribute('data-tab');
+            
+            // Remove active class from all tabs
+            tabBtns.forEach(b => b.classList.remove('active'));
+            tabContents.forEach(content => content.classList.remove('active'));
+            
+            // Add active class to clicked tab
+            btn.classList.add('active');
+            document.getElementById(tabName).classList.add('active');
+        });
+    });
+}
 
 // Set minimum date to today
 function setMinDate() {
@@ -39,6 +63,9 @@ document.getElementById('bookingForm').addEventListener('submit', (e) => {
     
     // Display success message
     alert('Table booked successfully! We look forward to serving you.');
+    
+    // Switch to bookings tab
+    document.querySelector('[data-tab="bookings"]').click();
     
     // Refresh bookings list
     displayBookings();
@@ -97,4 +124,119 @@ function cancelBooking(id) {
         displayBookings();
         alert('Booking cancelled successfully.');
     }
+}
+
+// Menu Functions
+function displayMenu(items) {
+    const container = document.getElementById('menuContainer');
+    
+    if (items.length === 0) {
+        container.innerHTML = '<div class="no-results">No menu items found matching your criteria.</div>';
+        return;
+    }
+    
+    container.innerHTML = items.map(item => `
+        <div class="menu-item" onclick="showMenuDetail(${item.id})">
+            ${item.popular ? '<div class="popular-badge">Popular</div>' : ''}
+            <div class="menu-item-image">${item.emoji}</div>
+            <div class="menu-item-content">
+                <span class="menu-item-category">${item.category}</span>
+                <div class="menu-item-header">
+                    <h3 class="menu-item-title">${item.name}</h3>
+                    <span class="menu-item-price">$${item.price.toFixed(2)}</span>
+                </div>
+                <p class="menu-item-description">${item.description}</p>
+                ${item.dietary.length > 0 ? `
+                    <div class="menu-item-tags">
+                        ${item.dietary.map(tag => `
+                            <span class="dietary-tag ${tag}">${formatDietaryTag(tag)}</span>
+                        `).join('')}
+                    </div>
+                ` : ''}
+            </div>
+        </div>
+    `).join('');
+}
+
+function formatDietaryTag(tag) {
+    return tag.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+}
+
+function showMenuDetail(itemId) {
+    const item = menuData.find(i => i.id === itemId);
+    if (!item) return;
+    
+    const modal = document.getElementById('menuModal');
+    const modalBody = document.getElementById('modalBody');
+    
+    modalBody.innerHTML = `
+        <div class="modal-item-image">${item.emoji}</div>
+        <span class="menu-item-category">${item.category}</span>
+        <div class="menu-item-header" style="margin-top: 15px;">
+            <h2 class="menu-item-title">${item.name}</h2>
+            <span class="menu-item-price">$${item.price.toFixed(2)}</span>
+        </div>
+        <p class="menu-item-description" style="margin: 20px 0; font-size: 1.1rem;">${item.description}</p>
+        ${item.dietary.length > 0 ? `
+            <div class="menu-item-tags">
+                ${item.dietary.map(tag => `
+                    <span class="dietary-tag ${tag}">${formatDietaryTag(tag)}</span>
+                `).join('')}
+            </div>
+        ` : ''}
+        ${item.popular ? '<p style="margin-top: 20px; color: #ff9800; font-weight: 600;">⭐ Popular Choice!</p>' : ''}
+    `;
+    
+    modal.classList.add('active');
+}
+
+// Close modal
+document.querySelector('.close-modal').addEventListener('click', () => {
+    document.getElementById('menuModal').classList.remove('active');
+});
+
+// Close modal when clicking outside
+document.getElementById('menuModal').addEventListener('click', (e) => {
+    if (e.target.id === 'menuModal') {
+        document.getElementById('menuModal').classList.remove('active');
+    }
+});
+
+// Setup menu filters
+function setupMenuFilters() {
+    const searchInput = document.getElementById('menuSearch');
+    const categoryFilter = document.getElementById('categoryFilter');
+    const dietaryFilter = document.getElementById('dietaryFilter');
+    
+    searchInput.addEventListener('input', filterMenu);
+    categoryFilter.addEventListener('change', filterMenu);
+    dietaryFilter.addEventListener('change', filterMenu);
+}
+
+function filterMenu() {
+    const searchTerm = document.getElementById('menuSearch').value.toLowerCase();
+    const category = document.getElementById('categoryFilter').value;
+    const dietary = document.getElementById('dietaryFilter').value;
+    
+    let filtered = menuData;
+    
+    // Filter by search term
+    if (searchTerm) {
+        filtered = filtered.filter(item => 
+            item.name.toLowerCase().includes(searchTerm) ||
+            item.description.toLowerCase().includes(searchTerm)
+        );
+    }
+    
+    // Filter by category
+    if (category !== 'all') {
+        filtered = filtered.filter(item => item.category === category);
+    }
+    
+    // Filter by dietary
+    if (dietary !== 'all') {
+        filtered = filtered.filter(item => item.dietary.includes(dietary));
+    }
+    
+    displayMenu(filtered);
 }

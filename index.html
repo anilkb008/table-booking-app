@@ -13,78 +13,123 @@
             <p>Reserve your table in seconds</p>
         </header>
 
+        <nav class="tab-navigation">
+            <button class="tab-btn active" data-tab="booking">Book a Table</button>
+            <button class="tab-btn" data-tab="menu">Our Menu</button>
+            <button class="tab-btn" data-tab="bookings">My Bookings</button>
+        </nav>
+
         <main>
-            <form id="bookingForm" class="booking-form">
-                <div class="form-group">
-                    <label for="name">Full Name</label>
-                    <input type="text" id="name" name="name" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" id="email" name="email" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="phone">Phone Number</label>
-                    <input type="tel" id="phone" name="phone" required>
-                </div>
-
-                <div class="form-row">
+            <!-- Booking Tab -->
+            <div id="booking" class="tab-content active">
+                <form id="bookingForm" class="booking-form">
                     <div class="form-group">
-                        <label for="date">Date</label>
-                        <input type="date" id="date" name="date" required>
+                        <label for="name">Full Name</label>
+                        <input type="text" id="name" name="name" required>
                     </div>
 
                     <div class="form-group">
-                        <label for="time">Time</label>
-                        <input type="time" id="time" name="time" required>
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" required>
                     </div>
-                </div>
 
-                <div class="form-row">
                     <div class="form-group">
-                        <label for="guests">Number of Guests</label>
-                        <select id="guests" name="guests" required>
-                            <option value="">Select guests</option>
-                            <option value="1">1 Guest</option>
-                            <option value="2">2 Guests</option>
-                            <option value="3">3 Guests</option>
-                            <option value="4">4 Guests</option>
-                            <option value="5">5 Guests</option>
-                            <option value="6">6 Guests</option>
-                            <option value="7+">7+ Guests</option>
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" id="phone" name="phone" required>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="date">Date</label>
+                            <input type="date" id="date" name="date" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="time">Time</label>
+                            <input type="time" id="time" name="time" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="guests">Number of Guests</label>
+                            <select id="guests" name="guests" required>
+                                <option value="">Select guests</option>
+                                <option value="1">1 Guest</option>
+                                <option value="2">2 Guests</option>
+                                <option value="3">3 Guests</option>
+                                <option value="4">4 Guests</option>
+                                <option value="5">5 Guests</option>
+                                <option value="6">6 Guests</option>
+                                <option value="7+">7+ Guests</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="occasion">Occasion (Optional)</label>
+                            <select id="occasion" name="occasion">
+                                <option value="">Select occasion</option>
+                                <option value="birthday">Birthday</option>
+                                <option value="anniversary">Anniversary</option>
+                                <option value="business">Business</option>
+                                <option value="date">Date</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="notes">Special Requests (Optional)</label>
+                        <textarea id="notes" name="notes" rows="3" placeholder="Any dietary restrictions or special requirements..."></textarea>
+                    </div>
+
+                    <button type="submit" class="btn-submit">Book Table</button>
+                </form>
+            </div>
+
+            <!-- Menu Tab -->
+            <div id="menu" class="tab-content">
+                <div class="menu-header">
+                    <h2>Our Delicious Menu</h2>
+                    <div class="menu-controls">
+                        <input type="text" id="menuSearch" placeholder="Search menu items..." class="search-input">
+                        <select id="categoryFilter" class="category-filter">
+                            <option value="all">All Categories</option>
+                            <option value="appetizers">Appetizers</option>
+                            <option value="mains">Main Course</option>
+                            <option value="desserts">Desserts</option>
+                            <option value="beverages">Beverages</option>
+                        </select>
+                        <select id="dietaryFilter" class="dietary-filter">
+                            <option value="all">All Dietary</option>
+                            <option value="vegetarian">Vegetarian</option>
+                            <option value="vegan">Vegan</option>
+                            <option value="gluten-free">Gluten-Free</option>
                         </select>
                     </div>
-
-                    <div class="form-group">
-                        <label for="occasion">Occasion (Optional)</label>
-                        <select id="occasion" name="occasion">
-                            <option value="">Select occasion</option>
-                            <option value="birthday">Birthday</option>
-                            <option value="anniversary">Anniversary</option>
-                            <option value="business">Business</option>
-                            <option value="date">Date</option>
-                            <option value="other">Other</option>
-                        </select>
-                    </div>
                 </div>
+                <div id="menuContainer" class="menu-grid"></div>
+            </div>
 
-                <div class="form-group">
-                    <label for="notes">Special Requests (Optional)</label>
-                    <textarea id="notes" name="notes" rows="3" placeholder="Any dietary restrictions or special requirements..."></textarea>
+            <!-- Bookings Tab -->
+            <div id="bookings" class="tab-content">
+                <div class="bookings-list">
+                    <h2>Your Bookings</h2>
+                    <div id="bookingsContainer"></div>
                 </div>
-
-                <button type="submit" class="btn-submit">Book Table</button>
-            </form>
-
-            <div id="bookingsList" class="bookings-list">
-                <h2>Your Bookings</h2>
-                <div id="bookingsContainer"></div>
             </div>
         </main>
     </div>
 
+    <!-- Menu Item Detail Modal -->
+    <div id="menuModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div id="modalBody"></div>
+        </div>
+    </div>
+
+    <script src="menu-data.js"></script>
     <script src="script.js"></script>
 </body>
 </html>

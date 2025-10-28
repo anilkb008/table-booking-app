@@ -12,14 +12,14 @@ body {
 }
 
 .container {
-    max-width: 800px;
+    max-width: 1200px;
     margin: 0 auto;
 }
 
 header {
     text-align: center;
     color: white;
-    margin-bottom: 40px;
+    margin-bottom: 30px;
 }
 
 header h1 {
@@ -32,6 +32,54 @@ header p {
     opacity: 0.9;
 }
 
+/* Tab Navigation */
+.tab-navigation {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.tab-btn {
+    flex: 1;
+    padding: 15px 30px;
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    min-width: 150px;
+}
+
+.tab-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: translateY(-2px);
+}
+
+.tab-btn.active {
+    background: white;
+    color: #667eea;
+    border-color: white;
+}
+
+/* Tab Content */
+.tab-content {
+    display: none;
+    animation: fadeIn 0.3s;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
 main {
     background: white;
     border-radius: 15px;
@@ -39,8 +87,10 @@ main {
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
 }
 
+/* Booking Form Styles */
 .booking-form {
-    margin-bottom: 40px;
+    max-width: 700px;
+    margin: 0 auto;
 }
 
 .form-group {
@@ -105,9 +155,210 @@ textarea {
     transform: translateY(0);
 }
 
+/* Menu Styles */
+.menu-header {
+    margin-bottom: 30px;
+}
+
+.menu-header h2 {
+    color: #333;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.menu-controls {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.search-input,
+.category-filter,
+.dietary-filter {
+    padding: 12px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 1rem;
+}
+
+.menu-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 25px;
+}
+
+.menu-item {
+    background: #f8f9fa;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s;
+    cursor: pointer;
+}
+
+.menu-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.menu-item-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 3rem;
+}
+
+.menu-item-content {
+    padding: 20px;
+}
+
+.menu-item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    margin-bottom: 10px;
+}
+
+.menu-item-title {
+    font-size: 1.3rem;
+    color: #333;
+    font-weight: 600;
+    flex: 1;
+}
+
+.menu-item-price {
+    font-size: 1.3rem;
+    color: #667eea;
+    font-weight: 700;
+}
+
+.menu-item-category {
+    display: inline-block;
+    padding: 5px 10px;
+    background: #667eea;
+    color: white;
+    border-radius: 5px;
+    font-size: 0.8rem;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+}
+
+.menu-item-description {
+    color: #666;
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+
+.menu-item-tags {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.dietary-tag {
+    padding: 5px 12px;
+    background: #e8f5e9;
+    color: #2e7d32;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+.dietary-tag.vegan {
+    background: #f3e5f5;
+    color: #7b1fa2;
+}
+
+.dietary-tag.gluten-free {
+    background: #fff3e0;
+    color: #e65100;
+}
+
+.popular-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: #ff9800;
+    color: white;
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+/* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    animation: fadeIn 0.3s;
+}
+
+.modal.active {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-content {
+    background: white;
+    padding: 40px;
+    border-radius: 15px;
+    max-width: 600px;
+    width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+    animation: slideUp 0.3s;
+}
+
+@keyframes slideUp {
+    from { transform: translateY(50px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+.close-modal {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 2rem;
+    cursor: pointer;
+    color: #999;
+    transition: color 0.3s;
+}
+
+.close-modal:hover {
+    color: #333;
+}
+
+.modal-item-image {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 5rem;
+}
+
+/* Bookings List Styles */
 .bookings-list {
-    border-top: 2px solid #e0e0e0;
-    padding-top: 30px;
+    max-width: 800px;
+    margin: 0 auto;
 }
 
 .bookings-list h2 {
@@ -158,13 +409,15 @@ textarea {
     background: #c82333;
 }
 
-.no-bookings {
+.no-bookings,
+.no-results {
     text-align: center;
     color: #999;
     padding: 40px;
     font-style: italic;
 }
 
+/* Responsive Design */
 @media (max-width: 768px) {
     header h1 {
         font-size: 2rem;
@@ -176,5 +429,25 @@ textarea {
 
     .form-row {
         grid-template-columns: 1fr;
+    }
+
+    .menu-controls {
+        grid-template-columns: 1fr;
+    }
+
+    .menu-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .tab-navigation {
+        flex-direction: column;
+    }
+
+    .tab-btn {
+        width: 100%;
+    }
+
+    .modal-content {
+        padding: 25px;
     }
 }
