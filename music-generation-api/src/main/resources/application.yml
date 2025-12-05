@@ -1,0 +1,51 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: music-generation-api
+
+# Suno.ai API Configuration
+suno:
+  api:
+    # Base URL for Suno.ai API (can be overridden for different API providers)
+    base-url: ${SUNO_API_BASE_URL:https://studio-api.suno.ai}
+    # Your Suno.ai API key (required - set via environment variable)
+    api-key: ${SUNO_API_KEY:your-api-key-here}
+    # Request timeout in seconds
+    timeout: ${SUNO_API_TIMEOUT:60}
+    # Maximum retry attempts for failed requests
+    max-retries: ${SUNO_API_MAX_RETRIES:3}
+    # Polling interval when waiting for song completion (seconds)
+    polling-interval-seconds: ${SUNO_API_POLLING_INTERVAL:5}
+    # Maximum polling attempts
+    polling-max-attempts: ${SUNO_API_POLLING_MAX_ATTEMPTS:60}
+    # Polling timeout in minutes
+    polling-timeout-minutes: ${SUNO_API_POLLING_TIMEOUT:10}
+
+# Logging configuration
+logging:
+  level:
+    root: INFO
+    com.sunoai.musicgeneration: DEBUG
+    org.springframework.web.reactive.function.client: DEBUG
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+
+# Actuator endpoints
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  endpoint:
+    health:
+      show-details: when-authorized
+
+# OpenAPI/Swagger configuration
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    enabled: true
